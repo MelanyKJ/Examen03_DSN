@@ -45,7 +45,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem 1rem;
-    background-color: #cb2930;
+    background-color: #1c3073;
   }
   #mainNav .navbar-brand {
     color: #fff;
@@ -93,10 +93,8 @@ background: linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%,
                     <td>{{precio}}</td>
                     <td><img src={{imageURL}} width="60" class="img-thumbnail"></td>
                     <td>
-                        <a href="{{imageURL}}" target="_blank"
-                        class="btn btn-primary">View</a>
-                        <a href="/images/delete/{{_id}}" class="btn btn-danger">Eliminar</a>
-                        <a href="/images/edit/{{_id}}" class="btn btn-success">Editar</a>
+                        <a href="/images/delete/{{_id}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="/images/edit/{{_id}}" class="btn btn-success"><i class="fas fa-pencil"></i></a>
                     </td>
                 </tr>
                 {{/each}}
