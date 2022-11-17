@@ -76,6 +76,7 @@ background: linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%,
                 <tr>
                     <th>Producto</th>
                     <th>Marca</th>
+                    <th>Tipo</th>
                     <th>Stock</th>
                     <th>Precio</th>
                     <th>Imagen</th>
@@ -87,6 +88,7 @@ background: linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%,
                 <tr>
                     <td>{{producto}}</td>
                     <td>{{marca}}</td>
+                    <td>{{tipo}}</td>
                     <td>{{stock}}</td>
                     <td>{{precio}}</td>
                     <td><img src={{imageURL}} width="60" class="img-thumbnail"></td>
@@ -94,7 +96,7 @@ background: linear-gradient(180deg, rgba(180,58,58,1) 0%, rgba(253,29,29,1) 50%,
                         <a href="{{imageURL}}" target="_blank"
                         class="btn btn-primary">View</a>
                         <a href="/images/delete/{{_id}}" class="btn btn-danger">Eliminar</a>
-                        <a href="/images/delete/{{_id}}" class="btn btn-success">Editar</a>
+                        <a href="/images/edit/{{_id}}" class="btn btn-success">Editar</a>
                     </td>
                 </tr>
                 {{/each}}

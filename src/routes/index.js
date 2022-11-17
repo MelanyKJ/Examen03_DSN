@@ -24,7 +24,7 @@ router.get('/images/add', async (req, res) => {
 
 router.post('/images/add', async (req, res) => {
     console.log(req.body);
-    const { producto, marca,stock,precio } = req.body;
+    const { producto, marca,stock,precio, tipo} = req.body;
     console.log(req.file);
     const result = await cloudinary.v2.uploader.upload(req.file.path);
     console.log(result);
@@ -33,6 +33,7 @@ router.post('/images/add', async (req, res) => {
         producto: producto,
         marca: marca,
         stock: stock,
+        tipo: tipo,
         precio:precio,
         imageURL: result.url,
         public_id: result.public_id
@@ -43,66 +44,45 @@ router.post('/images/add', async (req, res) => {
     res.redirect('/');
 });
 
-/*
-router.get("/images/edit/:photo_id", (req, res) => {
-    let id = req.params.id;
-    Producto.findById(id, (err, producto) =>{
-        if(err){
-            res.redirect('/')
-        } else {
-            if(producto == null){
-                res.redirect('/');
-            }else{
-                res.render('edit_productos', {
-                    title: 'Editar Producto',
-                    producto: producto,
-                })
-            }
-        }
-    })
+//EDITAR
+
+
+router.get("/images/edit/:photo_id", async (req, res) => {
+    const photo = await Photo.findById(req.params.photo_id);
+
+    res.render('image_edit',{photo})
 });
 
-router.post('/images/update/:photo_id', upload, (req,res) => {
-    let id = req.params.id;
-    let new_image = '';
+router.post('/images/edit/:photo_id', async (req, res) => {
+    const { photo_id }= req.params;
+    const { producto, marca, tipo, stock, precio, imageURL } = req.body;
+    const photo_up = await Photo.findById(photo_id);
+    const result = await cloudinary.v2.uploader.destroy(photo_up.public_id);
+    
+    const resultup = await cloudinary.v2.uploader.upload(req.file.path);
 
-    if(req.file){
-        new_image = req.file.filename;
-        try{
-            fs.unlinkSync('./uploads/' + req.body.old_image); 
-        } catch(err){
-            console.log(err);
-        }
-    }else {
-        new_image = req.body.old_image;
-    }
-
-    Producto.findByIdAndUpdate(id, {
-        producto: req.body.producto,
-        marca: req.body.marca,
-        tipo: req.body.tipo,
-        stock: req.body.stock,
-        precio: req.body.precio,
-        image: new_image,
-    }, (err, result) =>{
-        if(err){
-            res.json({ message: err.message, type: 'danger'});
-        } else {
-            req.session.message = {
-                type: 'success',
-                message: 'Producto Actualiado Correctamente!',
-            };
-            res.redirect('/');
-        }
-    })
+    const photo = await Photo.findByIdAndUpdate(photo_id, {
+        producto: producto,
+        marca: marca,
+        tipo: tipo,
+        stock: Number(stock),
+        precio: Number(precio),
+        imageURL: resultup.url,
+        public_id: resultup.public_id
+    }, {
+        new: true
+    });
+    
+    res.redirect('/')
 });
-*/
+
+
 router.get('/images/delete/:photo_id', async (req, res) => {
     const { photo_id }= req.params;
     const photo = await Photo.findByIdAndDelete(photo_id);
     const result = await cloudinary.v2.uploader.destroy(photo.public_id);
     console.log(result);
-    res.redirect('/images/add')
+    res.redirect('/')
 });
 
 module.exports = router;

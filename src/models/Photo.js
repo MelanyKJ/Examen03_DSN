@@ -9,6 +9,10 @@ const Photo = new Schema({
         type: String,
         required: true,
     },
+    tipo:{
+        type: String,
+        require: true,
+    },
     stock:{
         type: Number,
         required: true,
